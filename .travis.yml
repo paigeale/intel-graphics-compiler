@@ -33,7 +33,7 @@ matrix:
   include:
     - os: linux
       dist: xenial # Ubuntu 16.04 w/ llvm8
-      env: LLVM_VER=8 BUILD_TYPE=Release
+      env: LLVM_VER=8 BUILD_TYPE=Release COMPILER=gcc
       before_install:
           - git clone -b ocl-open-80 https://github.com/intel/opencl-clang opencl-clang
       addons:
@@ -45,7 +45,7 @@ matrix:
       install: *v8install
     - os: linux
       dist: bionic # Ubuntu 18.04 w/ llvm8
-      env: LLVM_VER=8 BUILD_TYPE=Release
+      env: LLVM_VER=8 BUILD_TYPE=Release COMPILER=gcc
       before_install:
           - git clone -b ocl-open-80 https://github.com/intel/opencl-clang opencl-clang
       addons:
@@ -57,7 +57,7 @@ matrix:
       install: *v8install
     - os: linux
       dist: xenial # Ubuntu 16.04 w/ llvm9
-      env: LLVM_VER=9 BUILD_TYPE=Release
+      env: LLVM_VER=9 BUILD_TYPE=Release COMPILER=gcc
       before_install:
           - git clone -b ocl-open-90 https://github.com/intel/opencl-clang opencl-clang
       addons:
@@ -69,7 +69,7 @@ matrix:
       install: *v9install
     - os: linux
       dist: bionic # Ubuntu 18.04 w/ llvm9
-      env: LLVM_VER=9 BUILD_TYPE=Release
+      env: LLVM_VER=9 BUILD_TYPE=Release COMPILER=gcc
       before_install:
           - git clone -b ocl-open-90 https://github.com/intel/opencl-clang opencl-clang
       addons:
@@ -87,8 +87,9 @@ branches:
   only:
     - master
     
-compiler:
-  - gcc
+env:
+  - COMPILER=gcc
+  - COMPILER=clang
 
 script:
   - if [ "${LLVM_VER}" == "9" ]; then sudo touch /usr/lib/llvm-9/bin/lit-cpuid; fi #Cmake fix
